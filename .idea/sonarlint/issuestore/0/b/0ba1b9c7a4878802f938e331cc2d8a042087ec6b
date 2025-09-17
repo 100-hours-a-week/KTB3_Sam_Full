@@ -1,0 +1,12 @@
+
+ˆ	java:S112R"FDefine and throw a dedicated exception instead of using a generic one.(‚¢¥ˆ8°Ì’·•3J$0cfa4774-64b7-4762-ac38-b24228c649d1
+w
+java:S3740"/Provide the parametrized type for this generic.(Æˆóüÿÿÿÿ8±Ì’·•3J$c4f31763-d281-494d-a96d-9d8c9ed059d5
+d	java:S131-""Add a default case to this switch.(Ç”í8»Ì’·•3J$f76a11cc-02a3-44b4-9160-112f0df20190
+
+java:S1301-"KReplace this "switch" statement by "if" statements to increase readability.(Ç”í8»Ì’·•3J$56bfbdcc-5e42-46ed-b0b3-5aece23d4305
+d	java:S1315""Add a default case to this switch.(Ç”í8¼Ì’·•3J$926a2998-de90-47d2-b8e0-57e264355cd8
+d	java:S131E""Add a default case to this switch.(Ç”í8½Ì’·•3J$9b40b030-97a7-4d4c-8283-1683a818de5c
+‰
+java:S6541
+"ÅA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 69 to 64, Complexity from 15 to 14, Nesting Level from 3 to 2, Number of Variables from 16 to 6.(Çµí‘8‹ğ“·•3J$3e85f2fa-189f-4774-b117-98311edf010f
