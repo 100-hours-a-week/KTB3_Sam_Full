@@ -79,7 +79,7 @@ public class Main {
                         }
                     }
                 }
-                default -> throw new RuntimeException("잘못된 번호를 입력했습니다.");
+                default -> System.out.println("잘못된 번호를 입력했습니다.");
             }
         }
 
