@@ -78,12 +78,20 @@ public class Main {
                         case 0 -> flag = false;
                         case 1 -> flag = carGame.play(suv, totalKm);
                         case 2 -> {
-                            suv.turnOnSafetyMode();
-                            flag = carGame.play(suv, totalKm);
+                            if(suv.checkSafetyMode()) {
+                                System.out.println("이미 안전모드가 켜져있습니다. 다시 선택해주세요");
+                            } else {
+                                suv.turnOnSafetyMode();
+                                flag = carGame.play(suv, totalKm);
+                            }
                         }
                         case 3 -> {
-                            suv.turnOffSafetyMode();
-                            flag = carGame.play(suv, totalKm);
+                            if(!suv.checkSafetyMode()) {
+                                System.out.println("이미 안전모드가 꺼져있습니다. 다시 선택해주세요");
+                            } else {
+                                suv.turnOffSafetyMode();
+                                flag = carGame.play(suv, totalKm);
+                            }
                         }
                     }
                 }

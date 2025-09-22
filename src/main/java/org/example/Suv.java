@@ -19,4 +19,8 @@ public class Suv extends Car{
         this.safetyLevel -=2;
     }
 
+    public boolean checkSafetyMode() {
+        return this.isSafetyMode;
+    }
+
 }
