@@ -16,7 +16,7 @@ public class Main {
         Sedan sedan = new Sedan();
         Suv suv = new Suv();
 
-        List vehicles = new ArrayList<Vehicle>();
+        List<Vehicle> vehicles = new ArrayList<>();
         vehicles.add(airplane);
         vehicles.add(sedan);
         vehicles.add(suv);
