@@ -1,7 +1,8 @@
 package org.example;
 
+import org.example.dto.MapEntryDto;
+
 import java.util.List;
-import java.util.Map;
 
 public class Game {
     public void start() {
@@ -11,10 +12,10 @@ public class Game {
         printLine();
     }
 
-    public void showMap(List<Map.Entry<String, Integer>> mapList) {
+    public void showMap(List<MapEntryDto> mapList) {
         System.out.println("다음 맵 중 원하는 번호를 눌러주세요!");
         for(int i =0; i<mapList.size(); i++) {
-            System.out.print((i+1)+". "+mapList.get(i).getKey() + ":"+mapList.get(i).getValue()+ "km ");
+            System.out.print((i+1)+". "+mapList.get(i).mapName() + ":"+mapList.get(i).distance()+ "km ");
             System.out.println("");
         }
         printLine();

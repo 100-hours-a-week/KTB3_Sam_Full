@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.dto.MapEntryDto;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,16 +24,12 @@ public class Main {
         Map<String,Integer> map = new HashMap<>();
         map.put("서울-부산", 300);
         map.put("수원-화성", 30);
-        List<Map.Entry<String, Integer>> mapList = map.entrySet()
-            .stream()
-            .toList();
-
-
+        List<MapEntryDto> mapList = MapEntryDto.from(map);
 
         carGame.start();
         carGame.showMap(mapList);
         int mapIndexAnswer = sc.nextInt();
-        int totalKm = mapList.get(mapIndexAnswer-1).getValue();
+        int totalKm = mapList.get(mapIndexAnswer-1).distance();
 
         carGame.showVehicles(vehicles);
         int carIndexAnswer = sc.nextInt();
