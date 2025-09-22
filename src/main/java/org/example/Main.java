@@ -54,12 +54,20 @@ public class Main {
                         case 0 -> flag = false;
                         case 1 -> flag = carGame.play(sedan, totalKm);
                         case 2 -> {
-                            sedan.turnOnDriveFastMode();
-                            flag = carGame.play(sedan, totalKm);
+                            if(sedan.checkDrivateFastMode()) {
+                                System.out.println("이미 드라이브모드가 켜져있습니다. 다시 선택해주세요");
+                            } else {
+                                sedan.turnOnDriveFastMode();
+                                flag = carGame.play(sedan, totalKm);
+                            }
                         }
                         case 3 -> {
-                            sedan.turnOffDriveFastMode();
-                            flag = carGame.play(sedan, totalKm);
+                            if(!sedan.checkDrivateFastMode()) {
+                                System.out.println("이미 드라이브모드가 꺼져있습니다. 다시 선택해주세요");
+                            } else {
+                                sedan.turnOffDriveFastMode();
+                                flag = carGame.play(sedan, totalKm);
+                            }
                         }
                     }
                 }

@@ -18,4 +18,8 @@ public class Sedan extends Car{
         this.safetyLevel +=2;
         this.kmPerCount /=2;
     }
+
+    public boolean checkDrivateFastMode() {
+        return this.isDriveFastMode;
+    }
 }
