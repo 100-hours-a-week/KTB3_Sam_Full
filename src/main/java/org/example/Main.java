@@ -59,8 +59,24 @@ public class Main {
         timeThread.setDaemon(true);
         timeThread.start();
 
+        EnemyThread enemy = new EnemyThread(totalKm);
+        enemy.start();
+
         boolean flag = true;
         while(flag) {
+            if (!enemy.isEnemyAlive()) {
+                System.out.println("적이 탈락했습니다. 당신의 승리!");
+                break;
+            }
+            if (enemy.isAttackSucceed()) {
+                System.out.println("적의 공격에 맞아 패배했습니다.");
+                break;
+            }
+            if (enemy.getCurrentKm() >= totalKm) {
+                System.out.println("적이 먼저 결승선에 도착했습니다. 당신의 패배!");
+                break;
+            }
+
             chosenVehicle.chooseMenu();
             int menuNumber = sc.nextInt();
             flag = strategyContext.executeMenu(menuNumber,totalKm);
