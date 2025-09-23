@@ -55,6 +55,10 @@ public class Main {
             case 3 -> strategyContext.setVehicleStrategy(new SuvStrategy(carGameController,carGameUI,suv));
         }
 
+        TimeThread timeThread = new TimeThread();
+        timeThread.setDaemon(true);
+        timeThread.start();
+
         boolean flag = true;
         while(flag) {
             chosenVehicle.chooseMenu();
