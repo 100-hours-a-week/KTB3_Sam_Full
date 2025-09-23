@@ -25,7 +25,7 @@ public class Airplane extends Vehicle{
     @Override
     public void chooseMenu() {
         System.out.println("비행기 운영팀입니다. 원하시는 메뉴를 선택해주세요");
-        System.out.println("0.운행 종료  1.운행");
+        System.out.println("0.운행 종료  1.운행  2.적 공격");
     }
 
     private Boolean fly() {

@@ -12,6 +12,7 @@ public abstract class Vehicle {
     protected int totalRunCount;
     protected int totalRunKm;
     protected int canFixCount;
+    protected int canAttackCount;
 
     Vehicle(int wearnessPerCount, int kmPerCount, double safetyProbability,int canFixCount) {
         this.durability = 100;
@@ -21,6 +22,7 @@ public abstract class Vehicle {
         this.totalRunCount = 0;
         this.totalRunKm = 0;
         this.canFixCount = canFixCount;
+        this.canAttackCount = 3;
     }
 
     public final PlayResult play(double accidentProbability, int totalKm) {
@@ -63,5 +65,13 @@ public abstract class Vehicle {
         if(!isAccident) {
             durability += DURABILITY_INCREASEMENT_AFTER_FIX_WHEN_NOT_ACCIDENT;
         }
+    }
+
+    public int getAttackCount() {
+        return this.canAttackCount;
+    }
+
+    public void decreaseAttackCount() {
+        this.canAttackCount--;
     }
 }

@@ -1,5 +1,7 @@
 package org.example.strategy;
 
+import org.example.EnemyThread;
+
 public class StrategyContext {
     VehicleStrategy vehicleStrategy;
 
@@ -7,7 +9,7 @@ public class StrategyContext {
         this.vehicleStrategy = vehicleStrategy;
     }
 
-    public boolean executeMenu(int menuNumber, int totalKm) {
-        return this.vehicleStrategy.executeMenu(menuNumber,totalKm);
+    public boolean executeMenu(int menuNumber, int totalKm, EnemyThread enemy) {
+        return this.vehicleStrategy.executeMenu(menuNumber,totalKm, enemy);
     }
 }

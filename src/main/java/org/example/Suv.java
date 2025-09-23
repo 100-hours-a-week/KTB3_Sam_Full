@@ -29,6 +29,6 @@ public class Suv extends Car{
     @Override
     public void chooseMenu() {
         System.out.println("Suv 운영팀입니다. 원하시는 메뉴를 선택해주세요");
-        System.out.println("0.운행 종료  1.운행  2.안전 모드 켜고 운행  3.안전 모드 끄고 운행");
+        System.out.println("0.운행 종료  1.운행  2.안전 모드 켜고 운행  3.안전 모드 끄고 운행  4.적 공격");
     }
 }
