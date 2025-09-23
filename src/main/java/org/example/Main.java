@@ -1,6 +1,10 @@
 package org.example;
 
 import org.example.dto.MapEntryDto;
+import org.example.strategy.AirplaneStrategy;
+import org.example.strategy.SedanStrategy;
+import org.example.strategy.StrategyContext;
+import org.example.strategy.SuvStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +15,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Game carGame = new Game();
+        GameController carGameController = new GameController();
+        GameUI carGameUI = new GameUI();
         Airplane airplane = new Airplane();
         Sedan sedan = new Sedan();
         Suv suv = new Suv();
@@ -26,76 +31,35 @@ public class Main {
         map.put("수원-화성", 30);
         List<MapEntryDto> mapList = MapEntryDto.from(map);
 
-        carGame.start();
-        carGame.showMap(mapList);
-        int mapIndexAnswer = sc.nextInt();
+        carGameUI.showStartMenu();
+
+        int mapIndexAnswer;
+        do {
+            carGameUI.showMap(mapList);
+            mapIndexAnswer = sc.nextInt();
+        } while(mapIndexAnswer < 1 || mapIndexAnswer > mapList.size());
         int totalKm = mapList.get(mapIndexAnswer-1).distance();
 
-        carGame.showVehicles(vehicles);
-        int carIndexAnswer = sc.nextInt();
-        boolean flag = true;
 
-        while(flag) {
-            switch(carIndexAnswer) {
-                case 1 -> {
-                    carGame.chooseAirplaneMenu();
-                    int menuNumber = sc.nextInt();
-                    switch(menuNumber) {
-                        case 0 -> flag = false;
-                        case 1 -> flag = carGame.play(airplane,totalKm);
-                    }
-                }
-                case 2 -> {
-                    carGame.chooseSedanMenu();
-                    int menuNumber = sc.nextInt();
-                    switch(menuNumber) {
-                        case 0 -> flag = false;
-                        case 1 -> flag = carGame.play(sedan, totalKm);
-                        case 2 -> {
-                            if(sedan.checkDrivateFastMode()) {
-                                System.out.println("이미 드라이브모드가 켜져있습니다. 다시 선택해주세요");
-                            } else {
-                                sedan.turnOnDriveFastMode();
-                                flag = carGame.play(sedan, totalKm);
-                            }
-                        }
-                        case 3 -> {
-                            if(!sedan.checkDrivateFastMode()) {
-                                System.out.println("이미 드라이브모드가 꺼져있습니다. 다시 선택해주세요");
-                            } else {
-                                sedan.turnOffDriveFastMode();
-                                flag = carGame.play(sedan, totalKm);
-                            }
-                        }
-                    }
-                }
-                case 3 -> {
-                    carGame.chooseSuvMenu();
-                    int menuNumber = sc.nextInt();
-                    switch(menuNumber) {
-                        case 0 -> flag = false;
-                        case 1 -> flag = carGame.play(suv, totalKm);
-                        case 2 -> {
-                            if(suv.checkSafetyMode()) {
-                                System.out.println("이미 안전모드가 켜져있습니다. 다시 선택해주세요");
-                            } else {
-                                suv.turnOnSafetyMode();
-                                flag = carGame.play(suv, totalKm);
-                            }
-                        }
-                        case 3 -> {
-                            if(!suv.checkSafetyMode()) {
-                                System.out.println("이미 안전모드가 꺼져있습니다. 다시 선택해주세요");
-                            } else {
-                                suv.turnOffSafetyMode();
-                                flag = carGame.play(suv, totalKm);
-                            }
-                        }
-                    }
-                }
-                default -> System.out.println("잘못된 번호를 입력했습니다.");
-            }
+        int carIndexAnswer;
+        do {
+            carGameUI.showVehicles(vehicles);
+            carIndexAnswer = sc.nextInt();
+        }while(carIndexAnswer < 1 || carIndexAnswer > vehicles.size());
+        Vehicle chosenVehicle = vehicles.get(carIndexAnswer-1);
+
+        StrategyContext strategyContext = new StrategyContext();
+        switch(carIndexAnswer) {
+            case 1 -> strategyContext.setVehicleStrategy(new AirplaneStrategy(carGameController,carGameUI,airplane));
+            case 2 -> strategyContext.setVehicleStrategy(new SedanStrategy(carGameController,carGameUI,sedan));
+            case 3 -> strategyContext.setVehicleStrategy(new SuvStrategy(carGameController,carGameUI,suv));
         }
 
+        boolean flag = true;
+        while(flag) {
+            chosenVehicle.chooseMenu();
+            int menuNumber = sc.nextInt();
+            flag = strategyContext.executeMenu(menuNumber,totalKm);
+        }
     }
 }

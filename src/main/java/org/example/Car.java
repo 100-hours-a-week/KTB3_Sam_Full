@@ -1,12 +1,14 @@
 package org.example;
 
-public class Car extends Vehicle{
+import org.example.enums.PlayResult;
+
+public abstract class Car extends Vehicle{
     protected int numberOfTires;
     protected int tireWearnessPerCount;
     protected int tireDurability;
 
-    Car(int wearnessPerCount, int kmPerCount, int safetyLevel) {
-        super(wearnessPerCount,kmPerCount,safetyLevel,4);
+    Car(int wearnessPerCount, int kmPerCount, double safetyProbability) {
+        super(wearnessPerCount,kmPerCount,safetyProbability,4);
         this.numberOfTires = 4;
         this.tireWearnessPerCount = 20;
         this.tireDurability = 100;
@@ -31,4 +33,24 @@ public class Car extends Vehicle{
         this.tireDurability = 100;
     }
 
+    @Override
+    protected PlayResult handleMove(int totalKm) {
+        if(this.drive(totalKm)) {
+            if(totalKm <= this.totalRunKm) {
+                return PlayResult.SUCCESS_ALL_OVER;
+            } else {
+                return PlayResult.SUCCESS_MOVE;
+            }
+        } else if(this.tireDurability <= this.tireWearnessPerCount) {
+            if(this.canFixCount >0) {
+                this.changeTires();
+                return PlayResult.SUCCESS_TIRE_FIX;
+            } else {
+                return PlayResult.FAIL_TIRE_FIX;
+            }
+        }
+        else {
+            return PlayResult.FAIL_LACK_VEHICLE_DURABILITY;
+        }
+    }
 }
