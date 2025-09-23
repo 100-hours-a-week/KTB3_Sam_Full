@@ -9,17 +9,6 @@ public class Airplane extends Vehicle{
     }
     private int numberOfWings;
 
-    public Boolean fly() {
-        if(this.durability >= this.wearnessPerCount) {
-            this.durability -= this.wearnessPerCount;
-            this.totalRunKm += this.kmPerCount;
-            this.totalRunCount++;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @Override
     protected PlayResult handleMove(int totalKm) {
         if(this.fly()) {
@@ -37,5 +26,16 @@ public class Airplane extends Vehicle{
     public void chooseMenu() {
         System.out.println("비행기 운영팀입니다. 원하시는 메뉴를 선택해주세요");
         System.out.println("0.운행 종료  1.운행");
+    }
+
+    private Boolean fly() {
+        if(this.durability >= this.wearnessPerCount) {
+            this.durability -= this.wearnessPerCount;
+            this.totalRunKm += this.kmPerCount;
+            this.totalRunCount++;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

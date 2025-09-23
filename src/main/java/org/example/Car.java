@@ -14,20 +14,6 @@ public abstract class Car extends Vehicle{
         this.tireDurability = 100;
     }
 
-    public boolean drive(int totalKm) {
-        if(this.tireDurability >= this.tireWearnessPerCount && this.durability >= this.wearnessPerCount) {
-            this.durability -= this.wearnessPerCount;
-            this.totalRunKm += this.kmPerCount;
-            this.totalRunCount++;
-            this.tireDurability -= this.tireWearnessPerCount;
-
-            if(totalRunKm > totalKm) totalRunKm = totalKm;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void changeTires() {
         this.canFixCount--;
         this.tireDurability = 100;
@@ -51,6 +37,20 @@ public abstract class Car extends Vehicle{
         }
         else {
             return PlayResult.FAIL_LACK_VEHICLE_DURABILITY;
+        }
+    }
+
+    private boolean drive(int totalKm) {
+        if(this.tireDurability >= this.tireWearnessPerCount && this.durability >= this.wearnessPerCount) {
+            this.durability -= this.wearnessPerCount;
+            this.totalRunKm += this.kmPerCount;
+            this.totalRunCount++;
+            this.tireDurability -= this.tireWearnessPerCount;
+
+            if(totalRunKm > totalKm) totalRunKm = totalKm;
+            return true;
+        } else {
+            return false;
         }
     }
 }
