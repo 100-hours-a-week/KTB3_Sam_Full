@@ -79,7 +79,7 @@ public class Main {
 
             chosenVehicle.chooseMenu();
             int menuNumber = sc.nextInt();
-            flag = strategyContext.executeMenu(menuNumber,totalKm);
+            flag = strategyContext.executeMenu(menuNumber,totalKm, enemy);
         }
     }
 }
