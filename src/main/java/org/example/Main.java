@@ -1,5 +1,11 @@
 package org.example;
 
+import org.example.dto.MapEntryDto;
+import org.example.strategy.AirplaneStrategy;
+import org.example.strategy.SedanStrategy;
+import org.example.strategy.StrategyContext;
+import org.example.strategy.SuvStrategy;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +15,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Game carGame = new Game();
+        GameController carGameController = new GameController();
+        GameUI carGameUI = new GameUI();
         Airplane airplane = new Airplane();
         Sedan sedan = new Sedan();
         Suv suv = new Suv();
 
-        List vehicles = new ArrayList<Vehicle>();
+        List<Vehicle> vehicles = new ArrayList<>();
         vehicles.add(airplane);
         vehicles.add(sedan);
         vehicles.add(suv);
@@ -22,66 +29,37 @@ public class Main {
         Map<String,Integer> map = new HashMap<>();
         map.put("서울-부산", 300);
         map.put("수원-화성", 30);
-        List<Map.Entry<String, Integer>> mapList = map.entrySet()
-            .stream()
-            .toList();
+        List<MapEntryDto> mapList = MapEntryDto.from(map);
+
+        carGameUI.showStartMenu();
+
+        int mapIndexAnswer;
+        do {
+            carGameUI.showMap(mapList);
+            mapIndexAnswer = sc.nextInt();
+        } while(mapIndexAnswer < 1 || mapIndexAnswer > mapList.size());
+        int totalKm = mapList.get(mapIndexAnswer-1).distance();
 
 
+        int carIndexAnswer;
+        do {
+            carGameUI.showVehicles(vehicles);
+            carIndexAnswer = sc.nextInt();
+        }while(carIndexAnswer < 1 || carIndexAnswer > vehicles.size());
+        Vehicle chosenVehicle = vehicles.get(carIndexAnswer-1);
 
-        carGame.start();
-        carGame.showMap(mapList);
-        int mapIndexAnswer = sc.nextInt();
-        int totalKm = mapList.get(mapIndexAnswer-1).getValue();
-
-        carGame.showVehicles(vehicles);
-        int carIndexAnswer = sc.nextInt();
-        boolean flag = true;
-
-        while(flag) {
-            switch(carIndexAnswer) {
-                case 1 -> {
-                    carGame.chooseAirplaneMenu();
-                    int menuNumber = sc.nextInt();
-                    switch(menuNumber) {
-                        case 0 -> flag = false;
-                        case 1 -> flag = carGame.play(airplane,totalKm);
-                    }
-                }
-                case 2 -> {
-                    carGame.chooseSedanMenu();
-                    int menuNumber = sc.nextInt();
-                    switch(menuNumber) {
-                        case 0 -> flag = false;
-                        case 1 -> flag = carGame.play(sedan, totalKm);
-                        case 2 -> {
-                            sedan.turnOnDriveFastMode();
-                            flag = carGame.play(sedan, totalKm);
-                        }
-                        case 3 -> {
-                            sedan.turnOffDriveFastMode();
-                            flag = carGame.play(sedan, totalKm);
-                        }
-                    }
-                }
-                case 3 -> {
-                    carGame.chooseSuvMenu();
-                    int menuNumber = sc.nextInt();
-                    switch(menuNumber) {
-                        case 0 -> flag = false;
-                        case 1 -> flag = carGame.play(suv, totalKm);
-                        case 2 -> {
-                            suv.turnOnSafetyMode();
-                            flag = carGame.play(suv, totalKm);
-                        }
-                        case 3 -> {
-                            suv.turnOffSafetyMode();
-                            flag = carGame.play(suv, totalKm);
-                        }
-                    }
-                }
-                default -> throw new RuntimeException("잘못된 번호를 입력했습니다.");
-            }
+        StrategyContext strategyContext = new StrategyContext();
+        switch(carIndexAnswer) {
+            case 1 -> strategyContext.setVehicleStrategy(new AirplaneStrategy(carGameController,carGameUI,airplane));
+            case 2 -> strategyContext.setVehicleStrategy(new SedanStrategy(carGameController,carGameUI,sedan));
+            case 3 -> strategyContext.setVehicleStrategy(new SuvStrategy(carGameController,carGameUI,suv));
         }
 
+        boolean flag = true;
+        while(flag) {
+            chosenVehicle.chooseMenu();
+            int menuNumber = sc.nextInt();
+            flag = strategyContext.executeMenu(menuNumber,totalKm);
+        }
     }
 }
